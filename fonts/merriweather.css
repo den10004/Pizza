@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Merriweather';
+    src: url('./merriweatherregular.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'PT Root UI';
+    src: url('./Ptrootui.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 400;
+}
+
+
+
