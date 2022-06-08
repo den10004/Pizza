@@ -7,7 +7,7 @@ function Categories({ value, onChangeCategory }) {
     "Вегетарианская",
     "Гриль",
     "Острые",
-    "Закрытыеs",
+    "Закрытые",
   ];
 
   return (
