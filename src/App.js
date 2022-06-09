@@ -6,6 +6,8 @@ import { Home } from "./Pages/Home";
 import Cart from "./Pages/Cart";
 import NotFound from "./Pages/NotFound";
 import { Routes, Route } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, asa } from "./redux/slices/filterSlice";
 
 export const SearchContext = React.createContext("");
 
