@@ -18,6 +18,9 @@ import { SearchContext } from "../App";
 export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const isSearch = React.useRef(false);
+
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
@@ -36,16 +39,7 @@ export const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
-
-      dispatch(setFilters({ ...params }));
-    }
-  }, []);
-
-  React.useEffect(() => {
+  const fetchPizza = () => {
     setIsLoading(true);
 
     const order = sortType.includes("-") ? "asc" : "desc";
@@ -61,8 +55,20 @@ export const Home = () => {
         setItems(res.data);
         setIsLoading(false);
       });
+  };
 
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = list.find((obj) => obj.sortProperty === params.sortType);
+
+      dispatch(setFilters({ ...params, sort }));
+    }
+  }, []);
+
+  React.useEffect(() => {
     window.scrollTo(0, 0);
+    fetchPizza();
   }, [categoryId, sortType, searchValue, currentPage]);
 
   React.useEffect(() => {

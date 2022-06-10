@@ -22,7 +22,7 @@ export const filterSlice = createSlice({
     },
     setFilters(state, action) {
       state.currentPage = Number(action.payload.currentPage);
-      //  state.sort = action.payload.sort;
+      state.sort = action.payload.sort;
       state.categoryId = Number(action.payload.categoryId);
     },
   },
