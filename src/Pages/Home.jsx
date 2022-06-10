@@ -63,6 +63,7 @@ export const Home = () => {
       const sort = list.find((obj) => obj.sortProperty === params.sortType);
 
       dispatch(setFilters({ ...params, sort }));
+      isSearch.current = true;
     }
   }, []);
 
