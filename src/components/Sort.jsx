@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice";
 
-const list = [
+export const list = [
   { name: "популярности, убыванию", sortProperty: "rating" },
   { name: "популярности, возрастанию", sortProperty: "-rating" },
   { name: "цене, убыванию", sortProperty: "price" },
@@ -11,7 +11,7 @@ const list = [
   { name: "алфавиту, возрастанию", sortProperty: "-title" },
 ];
 
-function Sort() {
+export function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
 
@@ -61,5 +61,3 @@ function Sort() {
     </div>
   );
 }
-
-export default Sort;

@@ -3,9 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import {
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from "../redux/slices/filterSlice";
 import Categories from "../components/Categories";
-import Sort from "../components/Sort";
+import { Sort, list } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
@@ -33,6 +37,15 @@ export const Home = () => {
   };
 
   React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+
+      dispatch(setFilters({ ...params }));
+    }
+  }, []);
+
+  React.useEffect(() => {
     setIsLoading(true);
 
     const order = sortType.includes("-") ? "asc" : "desc";
@@ -58,8 +71,9 @@ export const Home = () => {
       categoryId,
       currentPage,
     });
+
     navigate(`?${queryString}`);
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sortType, currentPage]);
 
   const pizzas = items
     /*  .filter((obj) => {
