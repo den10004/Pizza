@@ -94,9 +94,16 @@ export const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {status === "loading" ? skeletons : pizzas}
-      </div>
+      {status === "error" ? (
+        <div style={{ textAlign: "center" }}>
+          <span>☹</span>
+          <h1>Ошибка загрузки</h1>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? skeletons : pizzas}
+        </div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
