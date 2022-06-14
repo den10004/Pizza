@@ -54,14 +54,13 @@ export const Home = () => {
         )
         .then((res) => {
           setItems(res.data);
+          setIsLoading(false);
+
+          window.scrollTo(0, 0);
         });
     } catch (error) {
-      alert("ошибка при получении данных");
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
-    window.scrollTo(0, 0);
   };
 
   React.useEffect(() => {
