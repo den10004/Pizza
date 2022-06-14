@@ -25,13 +25,9 @@ export const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
+  const { items, status } = useSelector((state) => state.pizza);
 
   const { searchValue } = React.useContext(SearchContext);
-
-  //const [items, setItems] = React.useState([]);
-  const { items, status } = useSelector((state) => state.pizza);
-  //const [isLoading, setIsLoading] = React.useState(true);
-  //const [currentPage, setCurrentPage] = React.useState(1);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
