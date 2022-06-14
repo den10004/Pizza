@@ -39,7 +39,7 @@ export const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  const fetchPizza = () => {
+  const fetchPizza = async () => {
     setIsLoading(true);
 
     const order = sortType.includes("-") ? "asc" : "desc";
@@ -47,14 +47,21 @@ export const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    axios
-      .get(
-        `https://629f37c8461f8173e4e44389.mockapi.io/items?page=${currentPage}&limit=5&${category}&sortBy=${sortBy}&order=${order}${search}`
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    try {
+      const res = await axios
+        .get(
+          `https://629f37c8461f8173e4e44389.mockapi.io/items?page=${currentPage}&limit=5&${category}&sortBy=${sortBy}&order=${order}${search}`
+        )
+        .then((res) => {
+          setItems(res.data);
+        });
+    } catch (error) {
+      alert("ошибка при получении данных");
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+    window.scrollTo(0, 0);
   };
 
   React.useEffect(() => {
