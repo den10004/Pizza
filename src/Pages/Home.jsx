@@ -14,6 +14,7 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
+import { setItems } from "../redux/slices/pizza.slice";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -25,9 +26,10 @@ export const Home = () => {
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
 
+  const items = useSelector((state) => state.pizza.items);
   const { searchValue } = React.useContext(SearchContext);
 
-  const [items, setItems] = React.useState([]);
+  //const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   //const [currentPage, setCurrentPage] = React.useState(1);
 
@@ -48,18 +50,16 @@ export const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : "";
 
     try {
-      const res = await axios
-        .get(
-          `https://629f37c8461f8173e4e44389.mockapi.io/items?page=${currentPage}&limit=5&${category}&sortBy=${sortBy}&order=${order}${search}`
-        )
-        .then((res) => {
-          setItems(res.data);
-          setIsLoading(false);
-
-          window.scrollTo(0, 0);
-        });
+      const { data } = await axios.get(
+        `https://629f37c8461f8173e4e44389.mockapi.io/items?page=${currentPage}&limit=5&${category}&sortBy=${sortBy}&order=${order}${search}`
+      );
+      dispatch(setItems(data));
+      // window.scrollTo(0, 0);
     } catch (error) {
       console.log(error);
+      alert("ошибка при получении даннных");
+    } finally {
+      setIsLoading(false);
     }
   };
 
