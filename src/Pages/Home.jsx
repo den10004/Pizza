@@ -76,7 +76,7 @@ export const Home = () => {
       }
       return false;
     })*/
-    .map((obj) => <PizzaBlock {...obj} />);
+    .map((obj) => <PizzaBlock {...obj} key={obj.id} />);
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
