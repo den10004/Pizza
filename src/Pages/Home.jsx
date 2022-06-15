@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,7 +13,6 @@ import { Sort, list } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
-import { SearchContext } from "../App";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -27,7 +25,7 @@ export const Home = () => {
   const currentPage = useSelector((state) => state.filter.currentPage);
   const { items, status } = useSelector((state) => state.pizza);
 
-  const { searchValue } = React.useContext(SearchContext);
+  const { searchValue } = useSelector((state) => state.filter);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
