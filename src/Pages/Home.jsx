@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   setCategoryId,
   setCurrentPage,
@@ -76,7 +76,7 @@ export const Home = () => {
       }
       return false;
     })*/
-    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+    .map((obj) => <PizzaBlock {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
