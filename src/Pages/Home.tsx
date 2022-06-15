@@ -14,24 +14,23 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 
-export const Home = () => {
+export const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isSearch = React.useRef(false);
 
-  const categoryId = useSelector((state) => state.filter.categoryId);
-  const sortType = useSelector((state) => state.filter.sort.sortProperty);
-  const currentPage = useSelector((state) => state.filter.currentPage);
-  const { items, status } = useSelector((state) => state.pizza);
+  const categoryId = useSelector((state: any) => state.filter.categoryId);
+  const sortType = useSelector((state: any) => state.filter.sort.sortProperty);
+  const currentPage = useSelector((state: any) => state.filter.currentPage);
+  const { items, status } = useSelector((state: any) => state.pizza);
+  const { searchValue } = useSelector((state: any) => state.filter);
 
-  const { searchValue } = useSelector((state) => state.filter);
-
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
@@ -41,7 +40,10 @@ export const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    dispatch(fetchPizzas({ order, sortBy, category, search, currentPage }));
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({ order, sortBy, category, search, currentPage })
+    );
     window.scrollTo(0, 0);
   };
 
@@ -76,7 +78,7 @@ export const Home = () => {
       }
       return false;
     })*/
-    .map((obj) => <PizzaBlock {...obj} key={obj.id} />);
+    .map((obj: any) => <PizzaBlock {...obj} key={obj.id} />);
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
