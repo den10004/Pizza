@@ -1,4 +1,4 @@
-@import "../variables";
+@import '../variables';
 
 .header {
   border-bottom: 1px solid $gray-line;
@@ -12,7 +12,7 @@
     @media (max-width: 645px) {
       flex-direction: column;
 
-      .header__card {
+      .header__cart {
         margin-top: 20px;
       }
     }

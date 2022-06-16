@@ -3,7 +3,6 @@
     display: inline-block;
 
     a {
-      color: #fe5f1e;
       text-align: center;
       width: 45px;
       line-height: 42px;
@@ -11,8 +10,9 @@
       border: 1px solid #fe5f1e;
       border-radius: 30px;
       margin-right: 10px;
-      display: inline-block;
       cursor: pointer;
+      display: inline-block;
+      color: #fe5f1e;
 
       &:hover {
         background-color: #fe5f1e;
@@ -20,6 +20,7 @@
       }
     }
   }
+
   :global {
     .selected {
       a {
