@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getCartFromLS } from "../../utils/getCartFromLS";
+
+const cartData = getCartFromLS();
 
 export const cardSlice = createSlice({
   name: "cart",
   initialState: {
-    totalPrice: 0,
-    items: [],
+    totalPrice: cartData.totalPrice,
+    items: cartData.items,
   },
   reducers: {
     addItem: (state, action) => {

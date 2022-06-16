@@ -19,7 +19,7 @@ export const list: SortItem[] = [
   { name: "алфавиту, возрастанию", sortProperty: "-title" },
 ];
 
-export function Sort() {
+export const SortPopup: React.FC = React.memo(() => {
   const dispatch = useDispatch();
   const sort = useSelector((state: any) => state.filter.sort);
   const sortRef = React.useRef<HTMLDivElement>(null);
@@ -83,4 +83,4 @@ export function Sort() {
       )}
     </div>
   );
-}
+});

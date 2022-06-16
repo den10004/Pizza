@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import Search from "./Search";
 import { useSelector } from "react-redux";
+import React from "react";
 
 function Header() {
   const { items, totalPrice } = useSelector((state: any) => state.cart);
@@ -9,7 +10,18 @@ function Header() {
     0
   );
 
+  const isMounted = React.useRef(false);
+
   const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      console.log(json);
+      localStorage.setItem("cart", json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
