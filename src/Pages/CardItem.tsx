@@ -54,6 +54,7 @@ export const CardItem: React.FC<CartItemPros> = ({
       </div>
       <div className="cart__item-count">
         <button
+          disabled={count === 1}
           onClick={onClickMinus}
           className="button button--outline button--circle cart__item-count-minus"
         >
