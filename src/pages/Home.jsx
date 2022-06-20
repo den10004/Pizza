@@ -24,6 +24,9 @@ export const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
+
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -32,22 +35,7 @@ export const Home = () => {
     dispatch(setCategoryId(id));
   };
 
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
-
-      dispatch(
-        setfilters({
-          ...params,
-          sort,
-        })
-      );
-    }
-  }, []);
-
-  React.useEffect(() => {
+  const fetchPizzas = () => {
     setIsLoading(true);
 
     const order = sortProperty.includes("-") ? "asc" : "desc";
@@ -63,21 +51,50 @@ export const Home = () => {
         setItems(res.data);
         setIsLoading(false);
       });
+  };
+
+  //если изменили параметры и был первый рендер,
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty,
+        categoryId,
+        currentPage,
+      });
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [categoryId, sortProperty, currentPage]);
+
+  //если был первый рендер, то проверяем URL и сохр в redux
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+
+      dispatch(
+        setfilters({
+          ...params,
+          sort,
+        })
+      );
+      isSearch.current = true;
+    }
+  }, []);
+
+  //если был первый рендер, то запрос массива данных
+  React.useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+    isSearch.current = false;
   }, [categoryId, sortProperty, searchValue, currentPage]);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
-
-  React.useEffect(() => {
-    const queryString = qs.stringify({
-      sortProperty,
-      categoryId,
-      currentPage,
-    });
-    navigate(`?${queryString}`);
-  }, [categoryId, sortProperty, currentPage]);
 
   const pizzas = items
     .filter((obj) => {
