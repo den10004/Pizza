@@ -7,8 +7,6 @@ import { Routes, Route } from "react-router-dom";
 import { NotFoundBlock } from "./components/NotFoundBlock/index";
 import { Cart } from "./pages/Cart";
 
-import { store } from "./redux/store";
-
 export const SearchContext = React.createContext();
 
 function App() {
