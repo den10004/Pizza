@@ -1,36 +1,57 @@
 import React from "react";
 import axios from "axios";
+import qs from "qs";
+import { useNavigate } from "react-router-dom";
+
 import Categories from "../components/Categories";
-import Sort from "../components/Sort";
+import { list, Sort } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
 import { SearchContext } from "../App";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import {
+  setCategoryId,
+  setCurrentPage,
+  setfilters,
+} from "../redux/slices/filterSlice";
 
 export const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const currentPage = useSelector((state) => state.filter.currentPage);
-  const sortType = useSelector((state) => state.filter.sort.sortProperty);
+  const sortProperty = useSelector((state) => state.filter.sort.sortProperty);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { searchValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  //  const [currentPage, setCurrentPage] = React.useState(1);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
 
   React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+
+      dispatch(
+        setfilters({
+          ...params,
+          sort,
+        })
+      );
+    }
+  }, []);
+
+  React.useEffect(() => {
     setIsLoading(true);
 
-    const order = sortType.includes("-") ? "asc" : "desc";
-    const sortBy = sortType.replace("-", "");
+    const order = sortProperty.includes("-") ? "asc" : "desc";
+    const sortBy = sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
@@ -43,11 +64,20 @@ export const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sortProperty, searchValue, currentPage]);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
+
+  React.useEffect(() => {
+    const queryString = qs.stringify({
+      sortProperty,
+      categoryId,
+      currentPage,
+    });
+    navigate(`?${queryString}`);
+  }, [categoryId, sortProperty, currentPage]);
 
   const pizzas = items
     .filter((obj) => {
