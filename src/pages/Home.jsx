@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
@@ -8,9 +7,8 @@ import { list, Sort } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
-import { SearchContext } from "../App";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzasSlice";
 
 import {
   setCategoryId,
@@ -22,8 +20,9 @@ export const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const currentPage = useSelector((state) => state.filter.currentPage);
   const sortProperty = useSelector((state) => state.filter.sort.sortProperty);
+  const setSearchValue = useSelector((state) => state.filter.searchValue);
 
-  const { items, status } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector(selectPizzaData);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,8 +30,7 @@ export const Home = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { searchValue } = React.useContext(SearchContext);
-  // const [items, setItems] = React.useState([]);
+  // const { searchValue } = React.useContext(SearchContext);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const onChangeCategory = (id) => {
@@ -45,7 +43,7 @@ export const Home = () => {
     const order = sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = searchValue ? `&search=${searchValue}` : "";
+    const search = setSearchValue ? `&search=${setSearchValue}` : "";
 
     dispatch(fetchPizzas({ order, sortBy, category, search, currentPage }));
     setIsLoading(false);
@@ -90,7 +88,7 @@ export const Home = () => {
       getPizzas();
     }
     isSearch.current = false;
-  }, [categoryId, sortProperty, searchValue, currentPage]);
+  }, [categoryId, sortProperty, setSearchValue, currentPage]);
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
@@ -98,7 +96,7 @@ export const Home = () => {
 
   const pizzas = items
     .filter((obj) => {
-      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+      if (obj.title.toLowerCase().includes(setSearchValue.toLowerCase())) {
         return true;
       }
       return false;
