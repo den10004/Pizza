@@ -101,7 +101,11 @@ export const Home = () => {
       }
       return false;
     })*/
-    .map((obj) => <PizzaBlock {...obj} key={obj.id} />);
+    .map((obj) => (
+      <Link to={`/pizza${obj.id}`} key={obj.id}>
+        <PizzaBlock {...obj} />
+      </Link>
+    ));
 
   return (
     <div className="container">

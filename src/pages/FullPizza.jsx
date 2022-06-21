@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const FullPizza = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [pizza, setPizza] = React.useState();
 
   React.useEffect(() => {
@@ -16,6 +17,7 @@ const FullPizza = () => {
         setPizza(data);
       } catch (error) {
         alert("Ошибка получения данных");
+        navigate("/");
       }
     }
     fetchPizza();
