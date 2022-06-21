@@ -23,7 +23,7 @@ export const Home = () => {
   const currentPage = useSelector((state) => state.filter.currentPage);
   const sortProperty = useSelector((state) => state.filter.sort.sortProperty);
 
-  const { items } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector((state) => state.pizza);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,13 +47,9 @@ export const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    try {
-      dispatch(fetchPizzas({ order, sortBy, category, search, currentPage }));
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-    }
+    dispatch(fetchPizzas({ order, sortBy, category, search, currentPage }));
+    setIsLoading(false);
+
     window.scrollTo(0, 0);
   };
 
@@ -126,11 +122,16 @@ export const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-          : pizzas}
-      </div>
+      {status === "error" ? (
+        <h1>Ошибка загрузки данных</h1>
+      ) : (
+        <div className="content__items">
+          {status === "loading"
+            ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+            : pizzas}
+        </div>
+      )}
+
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
