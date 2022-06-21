@@ -48,9 +48,9 @@ export const Home = () => {
         `https://629f37c8461f8173e4e44389.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
       );
       setItems(res.data);
-    } catch (error) {
-      alert(error, "ошибка при получении данных");
-    } finally {
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
       setIsLoading(false);
     }
     window.scrollTo(0, 0);
