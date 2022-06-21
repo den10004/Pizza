@@ -1,6 +1,6 @@
 import React from "react";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Categories from "../components/Categories";
 import { list, Sort } from "../components/Sort";
@@ -95,24 +95,14 @@ export const Home = () => {
   };
 
   const pizzas = items
-    .filter((obj) => {
+    /* .filter((obj) => {
       if (obj.title.toLowerCase().includes(setSearchValue.toLowerCase())) {
         return true;
       }
       return false;
-    })
-    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+    })*/
+    .map((obj) => <PizzaBlock {...obj} key={obj.id} />);
 
-  /*
-  const pizzas = items
-    .filter((obj) => {
-      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-        return true;
-      }
-      return false;
-    })
-    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
-*/
   return (
     <div className="container">
       <div className="content__top">

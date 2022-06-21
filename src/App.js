@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import { Home } from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
 import { NotFoundBlock } from "./components/NotFoundBlock/index";
+import FullPizza from "./pages/FullPizza";
 import { Cart } from "./pages/Cart";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/pizza/:id" element={<FullPizza />} />
               <Route path="*" element={<NotFoundBlock />} />
             </Routes>
           </div>
