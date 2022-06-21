@@ -10,6 +10,8 @@ import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
 import { SearchContext } from "../App";
 import { useSelector, useDispatch } from "react-redux";
+import { setItems } from "../redux/slices/pizzasSlice";
+
 import {
   setCategoryId,
   setCurrentPage,
@@ -21,6 +23,8 @@ export const Home = () => {
   const currentPage = useSelector((state) => state.filter.currentPage);
   const sortProperty = useSelector((state) => state.filter.sort.sortProperty);
 
+  const { items } = useSelector((state) => state.pizza);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,7 +32,7 @@ export const Home = () => {
   const isMounted = React.useRef(false);
 
   const { searchValue } = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
+  // const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const onChangeCategory = (id) => {
@@ -47,7 +51,7 @@ export const Home = () => {
       const res = await axios.get(
         `https://629f37c8461f8173e4e44389.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
       );
-      setItems(res.data);
+      dispatch(setItems(res.data));
       setIsLoading(false);
     } catch (err) {
       console.log(err);
