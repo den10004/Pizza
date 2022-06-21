@@ -10,7 +10,7 @@ import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
 import { SearchContext } from "../App";
 import { useSelector, useDispatch } from "react-redux";
-import { setItems } from "../redux/slices/pizzasSlice";
+import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 import {
   setCategoryId,
@@ -39,7 +39,7 @@ export const Home = () => {
     dispatch(setCategoryId(id));
   };
 
-  const fetchPizzas = async () => {
+  const getPizzas = async () => {
     setIsLoading(true);
 
     const order = sortProperty.includes("-") ? "asc" : "desc";
@@ -48,10 +48,7 @@ export const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : "";
 
     try {
-      const res = await axios.get(
-        `https://629f37c8461f8173e4e44389.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-      );
-      dispatch(setItems(res.data));
+      dispatch(fetchPizzas({ order, sortBy, category, search, currentPage }));
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -94,7 +91,7 @@ export const Home = () => {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
     isSearch.current = false;
   }, [categoryId, sortProperty, searchValue, currentPage]);
