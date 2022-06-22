@@ -29,7 +29,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <Link to="/">
+        <Link key={id} to={`/pizza/${id}`}>
           <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
           <h4 className="pizza-block__title">{title}</h4>
         </Link>
@@ -75,10 +75,8 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
                 fill="white"
               />
             </svg>
-            <span>
-              Добавить
-              {addedCount > 0 && <i>{addedCount}</i>}
-            </span>
+            <span>Добавить</span>
+            {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>
       </div>
