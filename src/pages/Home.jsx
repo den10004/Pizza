@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Categories from "../components/Categories";
 import { list, Sort } from "../components/Sort";
-import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
+import PizzaBlock from "../components/PizzaBlock";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
 import { useSelector, useDispatch } from "react-redux";
