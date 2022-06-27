@@ -1,11 +1,10 @@
-import React from "react";
 import "./App.css";
 import "./scss/app.scss";
 
 import { Home } from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
 import { NotFoundBlock } from "./components/NotFoundBlock/index";
-import FullPizza from "./pages/FullPizza";
+import FullPizza from "./pages/FullPizza.tsx";
 import { Cart } from "./pages/Cart";
 import MainLayout from "./layouts/MainLayout";
 
