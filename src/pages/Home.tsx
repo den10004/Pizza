@@ -1,6 +1,6 @@
 import React from "react";
 import qs from "qs";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Categories from "../components/Categories";
 import { list, Sort } from "../components/Sort";
@@ -16,11 +16,13 @@ import {
   setfilters,
 } from "../redux/slices/filterSlice";
 
-export const Home = () => {
-  const categoryId = useSelector((state) => state.filter.categoryId);
-  const currentPage = useSelector((state) => state.filter.currentPage);
-  const sortProperty = useSelector((state) => state.filter.sort.sortProperty);
-  const setSearchValue = useSelector((state) => state.filter.searchValue);
+export const Home: React.FC = () => {
+  const categoryId = useSelector((state: any) => state.filter.categoryId);
+  const currentPage = useSelector((state: any) => state.filter.currentPage);
+  const sortProperty = useSelector(
+    (state: any) => state.filter.sort.sortProperty
+  );
+  const setSearchValue = useSelector((state: any) => state.filter.searchValue);
 
   const { items, status } = useSelector(selectPizzaData);
 
@@ -33,7 +35,7 @@ export const Home = () => {
   // const { searchValue } = React.useContext(SearchContext);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
@@ -45,7 +47,10 @@ export const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = setSearchValue ? `&search=${setSearchValue}` : "";
 
-    dispatch(fetchPizzas({ order, sortBy, category, search, currentPage }));
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({ order, sortBy, category, search, currentPage })
+    );
     setIsLoading(false);
 
     window.scrollTo(0, 0);
@@ -90,7 +95,7 @@ export const Home = () => {
     isSearch.current = false;
   }, [categoryId, sortProperty, setSearchValue, currentPage]);
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
@@ -101,7 +106,7 @@ export const Home = () => {
       }
       return false;
     })*/
-    .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+    .map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <div className="container">
