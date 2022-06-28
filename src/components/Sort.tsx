@@ -8,6 +8,10 @@ type ListItem = {
   sortProperty: string;
 };
 
+type PopupClick = MouseEvent & {
+  path: Node[];
+};
+
 export const list: ListItem[] = [
   { name: "популярности возрастанию", sortProperty: "raiting" },
   { name: "популярности убыванию", sortProperty: "-raiting" },
@@ -30,10 +34,9 @@ export const Sort = () => {
   };
 
   React.useEffect(() => {
-    const handleClickOuside = (e: any) => {
-      if (!e.path.includes(sortRef.current)) {
-        setOpen(false);
-      }
+    const handleClickOuside = (e: MouseEvent) => {
+      const _e = e as PopupClick;
+      if (sortRef.current && !_e.path.includes(sortRef.current)) setOpen(false);
     };
     document.body.addEventListener("click", handleClickOuside);
     return () => document.body.removeEventListener("click", handleClickOuside);
