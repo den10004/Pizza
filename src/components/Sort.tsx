@@ -28,7 +28,7 @@ export const list: ListItem[] = [
   { name: "алфавиту убыванию", sortProperty: SortProppertyEnum.TITLE_DESC },
 ];
 
-export const SortPopup = () => {
+export const SortPopup: React.FC = React.memo(() => {
   const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -87,4 +87,4 @@ export const SortPopup = () => {
       )}
     </div>
   );
-};
+});

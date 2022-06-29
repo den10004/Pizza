@@ -2,21 +2,16 @@ import React from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/store";
-import SearchPizzaParams from "../redux/slices/pizzasSlice";
 
 import Categories from "../components/Categories";
-import { list, SortPopup } from "../components/Sort";
+import { SortPopup } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzasSlice";
 
-import {
-  setCategoryId,
-  setCurrentPage,
-  setfilters,
-} from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
 
 export const Home: React.FC = () => {
   const categoryId = useSelector((state: any) => state.filter.categoryId);
@@ -37,9 +32,9 @@ export const Home: React.FC = () => {
   // const { searchValue } = React.useContext(SearchContext);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = React.useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
   const getPizzas = async () => {
     setIsLoading(true);
