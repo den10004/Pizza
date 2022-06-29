@@ -1,10 +1,10 @@
-@import './variables';
-@import './libs/normalize';
+@import "./variables";
+@import "./libs/normalize";
 
-@import './components/all';
+@import "./components/all";
 
 body {
-  background-color: $background;
+  background-color: #b6b6b6;
 }
 
 .wrapper {

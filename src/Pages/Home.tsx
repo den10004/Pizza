@@ -1,5 +1,4 @@
 import React from "react";
-import qs from "qs";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -11,18 +10,11 @@ import {
   Pagination,
 } from "../components";
 
-import { sortList } from "../components/Sort";
-
 import { useAppDispatch } from "../redux/store";
 import { selectFilter } from "../redux/filter/selectors";
 import { selectPizzaData } from "../redux/pizza/selectors";
-import {
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from "../redux/filter/slice";
+import { setCategoryId, setCurrentPage } from "../redux/filter/slice";
 import { fetchPizzas } from "../redux/pizza/asyncActions";
-import { SearchPizzaParams } from "../redux/pizza/types";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -75,7 +67,7 @@ const Home: React.FC = () => {
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
         <Sort value={sort} />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title"></h2>
       {status === "error" ? (
         <div className="content__error-info">
           <h2>Произошла ошибка 😕</h2>
