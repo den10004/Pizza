@@ -1,5 +1,10 @@
 import { useDispatch } from "react-redux";
-import { addItem, minisItem, removeItem } from "../redux/slices/cartSlice";
+import {
+  addItem,
+  minisItem,
+  removeItem,
+  CartItem,
+} from "../redux/slices/cartSlice";
 
 type CartItemProps = {
   id: string;
@@ -11,7 +16,7 @@ type CartItemProps = {
   count: number;
 };
 
-const CartItem: React.FC<CartItemProps> = ({
+const CartItemBlock: React.FC<CartItemProps> = ({
   id,
   title,
   type,
@@ -26,7 +31,7 @@ const CartItem: React.FC<CartItemProps> = ({
     dispatch(
       addItem({
         id,
-      })
+      } as CartItemProps)
     );
   };
 
@@ -126,4 +131,4 @@ const CartItem: React.FC<CartItemProps> = ({
   );
 };
 
-export default CartItem;
+export default CartItemBlock;

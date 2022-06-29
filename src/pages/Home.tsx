@@ -1,9 +1,11 @@
 import React from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/store";
+import SearchPizzaParams from "../redux/slices/pizzasSlice";
 
 import Categories from "../components/Categories";
-import { list, Sort } from "../components/Sort";
+import { list, SortPopup } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
@@ -26,7 +28,7 @@ export const Home: React.FC = () => {
 
   const { items, status } = useSelector(selectPizzaData);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const isSearch = React.useRef(false);
@@ -48,8 +50,13 @@ export const Home: React.FC = () => {
     const search = setSearchValue ? `&search=${setSearchValue}` : "";
 
     dispatch(
-      // @ts-ignore
-      fetchPizzas({ order, sortBy, category, search, currentPage })
+      fetchPizzas({
+        order,
+        sortBy,
+        category,
+        search,
+        currentPage: String(currentPage),
+      })
     );
     setIsLoading(false);
 
@@ -71,18 +78,22 @@ export const Home: React.FC = () => {
 
   //если был первый рендер, то проверяем URL и сохр в redux
   React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+    /*  if (!window.location.search) {
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as SearchPizzaParams;
+      const sort = list.find((obj) => obj.sortProperty === params.sortBy);
 
       dispatch(
         setfilters({
-          ...params,
-          sort,
+          searchValue: params.search,
+          currentPage: Number(params.currentPage),
+          categoryId: Number(params.category),
+          sort: sort || list[0],
         })
       );
       isSearch.current = true;
-    }
+    }*/
   }, []);
 
   //если был первый рендер, то запрос массива данных
@@ -112,7 +123,7 @@ export const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <SortPopup />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (
