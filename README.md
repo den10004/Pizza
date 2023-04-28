@@ -8,4 +8,4 @@
 - Пагинация страниц react-paginate;
 - Переход между страницами;
 
-[Ссылка на проект](https://den10004.github.io/Pizza)
+[Ссылка на проект](https://pizza-fchimxqln-denis-sergeev-85.vercel.app/)
